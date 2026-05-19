@@ -25,6 +25,10 @@ Scope boundary:
 - It does not include private deployment details, credentials, internal paths, customer records, or analytics exports.
 - If product behavior changes, verify the live SaaS before reusing these notes.
 
+## Related Project
+
+- [OpenHuman Online](https://openhuman.online/?utm_source=github&utm_medium=readme&utm_campaign=openhuman_public_repos&utm_content=ruflo) helps teams turn source material, notes, and meetings into an inspectable AI memory tree for human-reviewed workflows.
+
 ## Read This First
 
 | File | Best for |
