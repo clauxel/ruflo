@@ -1,0 +1,17 @@
+[Unit]
+Description=Multica Instance Router (prod)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/data/multica-router/app
+EnvironmentFile=/data/multica-router/multica-instance-router-prod.env
+ExecStart=/usr/local/bin/node /data/multica-router/app/server-router.mjs
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

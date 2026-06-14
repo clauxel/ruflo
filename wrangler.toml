@@ -1,0 +1,26 @@
+name = "my-ruflo"
+main = "worker/index.js"
+compatibility_date = "2026-05-02"
+
+[build]
+command = "npm run build:worker"
+watch_dir = "src"
+
+[vars]
+APP_ORIGIN = "https://ruflo.online"
+PAYMENT_PROVIDER = "creem"
+CREEM_ENV = "live"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ruflo"
+database_id = "890cbab4-89dd-417f-bcee-d0a790227025"
+migrations_dir = "d1/migrations"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = [
+  "/*"
+]

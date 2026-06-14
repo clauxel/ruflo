@@ -1,0 +1,24 @@
+# Ruflo AI
+
+Updated: 2026-06-12
+Canonical: https://ruflo.online/
+Support: support@aigeamy.com
+
+## Summary
+Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Ruflo, Codex, Claude Code, and memory-backed agent workflows. It helps users get a hosted agent workflow with pricing, console tracking, memory, review loops, and setup evidence.
+
+## Core pages
+- Home: https://ruflo.online/
+- Pricing: https://ruflo.online/pricing/
+- Checkout fallback: https://ruflo.online/checkout/
+- Privacy: https://ruflo.online/privacy/
+- Terms: https://ruflo.online/terms/
+
+## Traffic intent pages
+- ruflow ai: https://ruflo.online/ruflow-ai/ - Ruflow AI Guide for Ruflo Searchers
+
+## Pricing anchors
+- Starter: $19/mo public planning anchor
+- Growth: $49/mo public planning anchor
+- Scale: $149/mo public planning anchor
+

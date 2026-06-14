@@ -1,0 +1,48 @@
+{
+  "name": "ruflo-ai",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "dev:deploy": "bash scripts/deploy-development.sh",
+    "dev:tunnel:up": "bash scripts/dev-tunnel-up.sh",
+    "dev:tunnel:down": "bash scripts/dev-tunnel-down.sh",
+    "dev:tunnel:status": "bash scripts/dev-tunnel-status.sh",
+    "router:start": "node server-router.mjs",
+    "build": "tsc -b && vite build && node scripts/saas-nav-pages.mjs",
+    "build:worker": "npm run build && node scripts/prepare-worker-assets.mjs",
+    "preview": "vite preview",
+    "start": "node server.mjs --mode production",
+    "test": "node --test test/*.test.mjs",
+    "cloudflare:worker:dev": "wrangler dev",
+    "cloudflare:worker:deploy": "wrangler deploy --keep-vars",
+    "cloudflare:d1:migrate": "wrangler d1 migrations apply ruflo --remote",
+    "cloudflare:d1:seed": "wrangler d1 execute ruflo --remote --file d1/seed.sql",
+    "cloudflare:d1:bootstrap": "npm run cloudflare:d1:migrate && npm run cloudflare:d1:seed",
+    "cloudflare:deploy:prod": "npm run cloudflare:d1:migrate && npm run cloudflare:worker:deploy",
+    "cloudflare:pages:deploy": "npm run build && wrangler pages deploy dist --project-name my-ruflo",
+    "prod:inspect": "node scripts/inspect-production-analytics.mjs --cloudflare-d1 --d1-database ruflo --origin https://ruflo.online --skip-health",
+    "prod:inspect:postgres": "node scripts/inspect-production-analytics.mjs --local-db --skip-health",
+    "prod:inspect:remote": "node scripts/inspect-production-analytics.mjs",
+    "postgres:setup": "node scripts/setup-postgres-server.mjs",
+    "ruflo:package": "node scripts/package-remote-multica-instance.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.543.0",
+    "pg": "^8.20.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "ssh2": "^1.17.0",
+    "undici": "^8.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "pg-mem": "^3.0.14",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.10",
+    "wrangler": "^4.86.0"
+  }
+}

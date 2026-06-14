@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.projects.multica-dev-tunnel</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/ABSOLUTE/PATH/TO/OpenClaw Launch/multica/scripts/dev-tunnel-up.sh</string>
+    <string>--foreground</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/ABSOLUTE/PATH/TO/OpenClaw Launch/multica</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>DEV_ENV_FILE</key>
+    <string>/ABSOLUTE/PATH/TO/OpenClaw Launch/multica/.env.development</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/YOUR_USER/Library/Application Support/OpenClawLaunch/dev-tunnels/multica/launchd.out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/YOUR_USER/Library/Application Support/OpenClawLaunch/dev-tunnels/multica/launchd.err.log</string>
+</dict>
+</plist>

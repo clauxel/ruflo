@@ -1,0 +1,17 @@
+[Unit]
+Description=Multica
+After=network.target
+
+[Service]
+Type=simple
+User=multica
+Group=multica
+WorkingDirectory=/data/multica/app
+Environment=HOME=/home/multica
+EnvironmentFile=/data/multica/multica.env
+ExecStart=/usr/bin/npm run start
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

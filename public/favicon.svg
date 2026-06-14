@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Ruflo AI">
+  <rect width="64" height="64" rx="14" fill="#07110f"/>
+  <path d="M13 21h20c9.9 0 18 8.1 18 18v4" stroke="#7cf7c2" stroke-width="6" stroke-linecap="round"/>
+  <path d="M13 43h18c6.6 0 12-5.4 12-12v-3" stroke="#69a7ff" stroke-width="6" stroke-linecap="round"/>
+  <path d="M17 31h15c4.4 0 8 3.6 8 8v6" stroke="#f5d76e" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="16" cy="21" r="4" fill="#7cf7c2"/>
+  <circle cx="48" cy="43" r="4" fill="#69a7ff"/>
+</svg>

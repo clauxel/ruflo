@@ -1,0 +1,28 @@
+{
+  "deployment": {
+    "provider": "ssh",
+    "targetServer": "genericagent-runtime-1",
+    "consoleBaseUrl": "https://console.genericagent.local",
+    "publicBaseUrl": "https://genericagent.local",
+    "consolePortBase": 58000,
+    "consolePortRange": 4000,
+    "mockRootDir": "./data/mock-remote"
+  },
+  "genericagent": {
+    "sourceType": "archive",
+    "archiveUrl": "",
+    "archivePath": "/data/multica/templates/multica-template.tar.gz",
+    "repoUrl": "https://github.com/multica/multica.git",
+    "repoRef": "main",
+    "baseDir": "/data/multica",
+    "servicePrefix": "multica",
+    "runtimeUserPrefix": "mca",
+    "installCommand": "npm install --no-audit --no-fund",
+    "buildCommand": "npm run build",
+    "startCommand": "npm run start",
+    "tokenEnvName": "COMMUNICATION_TOKEN",
+    "modelEnvName": "MULTICA_MODEL_ID",
+    "channelEnvName": "MULTICA_CHANNEL_ID",
+    "planEnvName": "MULTICA_PLAN_ID"
+  }
+}
