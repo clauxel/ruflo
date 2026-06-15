@@ -39,3 +39,59 @@ Required GitHub repository secrets:
 - `CLOUDFLARE_ACCOUNT_ID`
 
 Configure payment credentials as Cloudflare secrets. The Worker accepts `API_PROD_KEY`, `CREEM_API_KEY`, or `CREEM_KEY` for live Creem checkout.
+
+## What Ruflo Actually Is
+
+Ruflo helps teams coordinate AI agents around real software work: planning, implementation, review, memory, MCP tools, and repeatable operating loops.
+
+Use Ruflo when you need:
+
+- Claude Code and Codex-style planning loops
+- MCP tool coordination
+- Memory and reusable workflow context
+- Agent roles, swarms, and task routing
+- Hosted evaluation path through the SaaS
+
+The main hosted entry points are:
+
+| Destination | Tracked link |
+| --- | --- |
+| SaaS home | [ruflo.online](https://ruflo.online/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_home) |
+| Pricing | [pricing](https://ruflo.online/plans/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_pricing) |
+| Checkout | [checkout](https://ruflo.online/checkout/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_checkout) |
+
+## Related Public Projects
+
+If your Ruflo evaluation needs scenario modeling rather than work orchestration, open MiroFish alongside this guide:
+
+| Project | Tracked link | Why it helps |
+| --- | --- | --- |
+| MiroFish | [mirofish.work](https://mirofish.work/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=related_mirofish) | Useful when a coordinated agent workflow should produce or evaluate multi-agent scenario simulations and structured reports. |
+
+## Default Evaluation Path
+
+1. Define a bounded goal and the repository or workspace scope.
+2. Choose the agent roles, MCP tools, memory expectations, and human review checkpoints.
+3. Run a small pilot before connecting sensitive repositories or long-running workflows.
+4. Review the outputs, adjust prompts and permissions, then expand the workflow.
+
+## Minimum Safety Checklist
+
+- Do not start with a private production repository.
+- Keep credentials out of prompts and logs.
+- Review MCP server permissions before use.
+- Treat agent output as proposed work until a human verifies it.
+
+## Suggested Reading Order
+
+1. [Quickstart](guide/quickstart.md)
+2. [Evaluation](guide/evaluation.md)
+3. [Workflow](features/workflow.md)
+4. [Use cases](features/use-cases.md)
+5. [Security model](features/security-model.md)
+6. [Checkout and pricing](guide/checkout-and-pricing.md)
+7. [FAQ](reference/faq.md)
+
+## Contributing
+
+Corrections are welcome. Keep this project public-safe: cite public sources, avoid copying long passages from other projects, and never include credentials, customer data, private logs, internal machine paths, or untracked outbound links.
