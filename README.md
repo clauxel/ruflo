@@ -1,44 +1,70 @@
-# Ruflo AI
+# Ruflo for Developers
 
-Ruflo AI is a hosted SaaS layer for Ruflo-style multi-agent workspaces. It packages the public Ruflo value proposition into a customer-facing launch path with product-led UI, pricing, Creem checkout, Cloudflare Worker APIs, Cloudflare Pages Functions, D1-backed analytics/order state, route-specific SEO metadata, robots.txt, and sitemap.xml.
+[Open hosted SaaS](https://ruflo.online/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_primary_home) | [View pricing](https://ruflo.online/plans/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_pricing) | [Start checkout](https://ruflo.online/checkout/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_checkout)
 
-## What This Site Provides
+> Coordinate multi-agent work without turning every run into a one-off prompt.
 
-- Hosted launch flow for Ruflo workspaces
-- Default Growth yearly checkout with a 50% annual discount
-- Creem hosted checkout with homepage return after successful payment
-- Useful resource pages for Ruflo AI, GitHub evaluation, Reddit research, Codex, Claude Code, UI, legitimacy checks, and first-use guidance
-- Worker deployment for API routing, SEO HTML rendering, static assets, robots.txt, and sitemap.xml
-- Pages deployment with a catch-all Function so Pages can serve the same API and metadata behavior
-- D1 migrations for orders, users, sessions, deployments, analytics, and console state
+Last reviewed: 2026-05-18.
 
-## Commands
+## What This Folder Is
 
-```bash
-npm install
-npm run build
-npm run build:worker
-npm test
-npm run cloudflare:d1:migrate
-npm run cloudflare:worker:deploy
-npm run cloudflare:pages:deploy
-```
+This is a docs-only project for Ruflo. It is modeled after the MiroFish developer documentation pattern: a short front door, a clear reading order, practical guides, feature explanations, public references, and developer-oriented architecture notes.
 
-## Deployment
+It focuses on:
 
-The production deployment source is `git@github.com:clauxel/my_ruflo.git`.
+- what Ruflo is and who should evaluate it
+- how the hosted SaaS at ruflo.online fits into the workflow
+- which product surfaces matter first
+- what to check before payment, rollout, or team adoption
+- how to keep public links tracked with UTM parameters
 
-The GitHub Actions workflow in `.github/workflows/deploy-cloudflare-worker.yml` installs dependencies, runs tests, builds Worker assets, applies D1 migrations, and deploys the `my-ruflo` Cloudflare Worker with `--keep-vars` so Dashboard-managed variables are preserved.
+Scope boundary:
 
-Push-to-main deployment is guarded by the repository variable `ENABLE_CLOUDFLARE_DEPLOY=true`. Manual deployment is available through `workflow_dispatch`.
+- This repository contains documentation only.
+- It does not contain the production SaaS source code.
+- It does not include private deployment details, credentials, internal paths, customer records, or analytics exports.
+- If product behavior changes, verify the live SaaS before reusing these notes.
 
-Required GitHub repository secrets:
+## Related Workflow
 
-- `CLOUDFLARE_API_TOKEN`
-- or `CLOUDFLARE_API_KEY` plus `CLOUDFLARE_EMAIL`
-- `CLOUDFLARE_ACCOUNT_ID`
+- [OpenHuman Online](https://openhuman.online/?utm_source=github&utm_medium=readme&utm_campaign=openhuman_public_repos&utm_content=ruflo) is useful when evaluation depends on durable source notes, meeting context, and human-reviewed assistant memory.
 
-Configure payment credentials as Cloudflare secrets. The Worker accepts `API_PROD_KEY`, `CREEM_API_KEY`, or `CREEM_KEY` for live Creem checkout.
+## Daily SEO/GEO Focus
+
+Primary URL: <https://ruflo.online/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_seo_geo&utm_content=readme_primary>
+
+Primary keyword: **multi-agent workflow coordination**. The current search opportunity is not broad "AI agent" traffic; it is buyers trying to coordinate Codex, Claude Code, MCP tools, memory, review checkpoints, and repeatable work loops without hand-building every run.
+
+Recommended page promises:
+
+- Title: `Ruflo - Multi-Agent Workflow Coordination for AI Coding Teams`
+- Meta description: `Coordinate Codex, Claude Code, MCP tools, memory, review checkpoints, and repeatable agent workflows from one hosted Ruflo workspace.`
+- H1: `Coordinate multi-agent software work without turning every run into a one-off prompt`
+- CTA: `Plan a Ruflo workflow` and `View Ruflo pricing`
+
+Internal links to keep active:
+
+| Source page | Target | Anchor |
+| --- | --- | --- |
+| [features/workflow.md](features/workflow.md) | <https://ruflo.online/> | multi-agent workflow coordination |
+| [features/use-cases.md](features/use-cases.md) | <https://ruflo.online/plans/> | Ruflo pricing for agent teams |
+| [guide/evaluation.md](guide/evaluation.md) | <https://ruflo.online/checkout/> | start Ruflo checkout |
+
+## Read This First
+
+| File | Best for |
+| --- | --- |
+| [guide/quickstart.md](guide/quickstart.md) | Fastest buyer and evaluator path. |
+| [guide/evaluation.md](guide/evaluation.md) | What to check before paying or rolling out. |
+| [guide/checkout-and-pricing.md](guide/checkout-and-pricing.md) | Hosted SaaS, default plan, pricing, and checkout links. |
+| [guide/troubleshooting.md](guide/troubleshooting.md) | Common blockers and clean next steps. |
+| [features/workflow.md](features/workflow.md) | End-to-end product workflow. |
+| [features/use-cases.md](features/use-cases.md) | High-intent use cases and buying triggers. |
+| [features/security-model.md](features/security-model.md) | Practical safety boundaries. |
+| [reference/links.md](reference/links.md) | Public links with UTM tracking. |
+| [reference/faq.md](reference/faq.md) | Short answers for common questions. |
+| [reference/utm-policy.md](reference/utm-policy.md) | Link tagging rules for this docs project. |
+| [developer/architecture.md](developer/architecture.md) | How to explain the SaaS from a developer point of view. |
 
 ## What Ruflo Actually Is
 
@@ -59,14 +85,6 @@ The main hosted entry points are:
 | SaaS home | [ruflo.online](https://ruflo.online/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_home) |
 | Pricing | [pricing](https://ruflo.online/plans/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_pricing) |
 | Checkout | [checkout](https://ruflo.online/checkout/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=readme_links_checkout) |
-
-## Related Public Projects
-
-If your Ruflo evaluation needs scenario modeling rather than work orchestration, open MiroFish alongside this guide:
-
-| Project | Tracked link | Why it helps |
-| --- | --- | --- |
-| MiroFish | [mirofish.work](https://mirofish.work/?utm_source=github&utm_medium=documentation&utm_campaign=ruflo_docs&utm_content=related_mirofish) | Useful when a coordinated agent workflow should produce or evaluate multi-agent scenario simulations and structured reports. |
 
 ## Default Evaluation Path
 
