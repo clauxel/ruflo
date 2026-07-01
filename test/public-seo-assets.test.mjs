@@ -38,7 +38,7 @@ const expectedMarketingUrls = [
   `${liveOrigin}/resources`,
   `${liveOrigin}/privacy`,
   `${liveOrigin}/terms`,
-  `${liveOrigin}/pricing`,
+  `${liveOrigin}/plans`,
 ]
 
 function escapeRegExp(value) {

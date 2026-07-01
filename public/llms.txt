@@ -9,7 +9,7 @@ Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Rufl
 
 ## Core pages
 - Home: https://ruflo.online/
-- Pricing: https://ruflo.online/pricing
+- Pricing: https://ruflo.online/plans
 - Checkout: https://ruflo.online/plans?plan=growth&billing=annual
 - Privacy: https://ruflo.online/privacy/
 - Terms: https://ruflo.online/terms/

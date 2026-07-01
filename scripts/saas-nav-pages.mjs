@@ -187,13 +187,13 @@ async function upsertSitemap(root) {
     for (const match of current.matchAll(/<loc>([^<]+)<\/loc>/g)) urls.add(match[1])
   }
   urls.add(site.origin + '/')
-  urls.add(canonical('/pricing'))
+  urls.add(canonical('/plans'))
   for (const navPage of navPages) urls.add(canonical('/' + navPage.slug))
   const body = [...urls]
     .sort()
     .map((url) => {
       const isHome = url === site.origin + '/'
-      const isPricing = /\/pricing\/?$/.test(url)
+      const isPricing = /\/plans\/?$/.test(url)
       return '  <url>\n    <loc>' + escapeXml(url) + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <changefreq>' + (isHome || isPricing ? 'weekly' : 'monthly') + '</changefreq>\n    <priority>' + (isHome ? '1.0' : isPricing ? '0.9' : '0.78') + '</priority>\n  </url>'
     })
     .join('\n')

@@ -369,7 +369,7 @@ export function buildSeoDocument({
       description,
       keywords: ['Ruflo AI pricing', 'hosted Ruflo workspace pricing', ...defaultSiteKeywords],
       canonicalUrl,
-      robots: 'noindex,follow',
+      robots: 'index,follow',
       structuredData: [buildWebPageStructuredData(title, description, canonicalUrl)],
     }
   }

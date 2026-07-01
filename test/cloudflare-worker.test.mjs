@@ -120,7 +120,7 @@ test('Cloudflare worker keeps temporary workers.dev hosts out of public SEO asse
   assert.equal(sitemapResponse.status, 200)
   assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/<\/loc>/)
   assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/resources<\/loc>/)
-  assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/pricing<\/loc>/)
+  assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/plans<\/loc>/)
   assert.doesNotMatch(sitemapXml, /workers\.dev/)
   assert.equal(robotsResponse.status, 200)
   assert.match(robotsTxt, /^Sitemap: https:\/\/ruflo\.online\/sitemap\.xml$/m)
@@ -149,10 +149,10 @@ test('Cloudflare worker redirects legacy static SEO URLs to canonical routes', a
   )
 
   assert.equal(response.status, 301)
-  assert.equal(response.headers.get('Location'), 'https://ruflo.online/checkout?plan=growth&billing=annual&utm_source=test')
+  assert.equal(response.headers.get('Location'), 'https://ruflo.online/plans?plan=growth&billing=annual&utm_source=test')
 })
 
-test('Cloudflare worker canonicalizes pricing and resources to no trailing slash', async () => {
+test('Cloudflare worker redirects legacy pricing aliases and canonicalizes resources', async () => {
   const env = {
     APP_ORIGIN: 'https://ruflo.online',
   }
@@ -161,7 +161,7 @@ test('Cloudflare worker canonicalizes pricing and resources to no trailing slash
   const resourcesResponse = await handleCloudflareRequest(new Request('https://ruflo.online/resources/'), env)
 
   assert.equal(pricingResponse.status, 301)
-  assert.equal(pricingResponse.headers.get('Location'), 'https://ruflo.online/pricing')
+  assert.equal(pricingResponse.headers.get('Location'), 'https://ruflo.online/plans')
   assert.equal(resourcesResponse.status, 301)
   assert.equal(resourcesResponse.headers.get('Location'), 'https://ruflo.online/resources')
 })
@@ -220,9 +220,9 @@ test('Cloudflare worker serves resources hub as an indexable page', async () => 
   assert.match(html, /Ruflo AI resources and evaluation guides/)
 })
 
-test('Cloudflare worker renders checkout readiness with noindex and current prices', async () => {
+test('Cloudflare worker renders pricing plans with indexable current prices', async () => {
   const response = await handleCloudflareRequest(
-    new Request('https://ruflo.online/checkout?plan=growth&billing=annual', {
+    new Request('https://ruflo.online/plans?plan=growth&billing=annual', {
       headers: {
         Accept: 'text/html',
       },
@@ -233,7 +233,7 @@ test('Cloudflare worker renders checkout readiness with noindex and current pric
     {
       assetFetcher: async (request) => {
         const url = new URL(request.url)
-        if (url.pathname === '/index.html' || url.pathname === '/checkout') {
+        if (url.pathname === '/index.html' || url.pathname === '/plans') {
           return new Response(seoHtmlTemplate, {
             headers: {
               'Content-Type': 'text/html; charset=utf-8',
@@ -248,10 +248,10 @@ test('Cloudflare worker renders checkout readiness with noindex and current pric
   const html = await response.text()
 
   assert.equal(response.status, 200)
-  assert.match(html, /<title>Checkout \| Ruflo AI<\/title>/)
-  assert.match(html, /<meta name="robots" content="noindex,follow" \/>/)
-  assert.match(html, /Ruflo AI checkout readiness/)
-  assert.match(html, /Growth \$49\/mo/)
+  assert.match(html, /<title>Pricing Plans \| Ruflo AI<\/title>/)
+  assert.match(html, /<meta name="robots" content="index,follow" \/>/)
+  assert.match(html, /Ruflo pricing plans and hosted checkout/)
+  assert.match(html, /"name":"Growth monthly","price":"49"/)
 })
 
 test('Cloudflare worker noindexes removed Chris Rufo lookup pages', async () => {
@@ -403,14 +403,14 @@ test('Cloudflare worker renders route-specific SEO for HTML routes', async () =>
 
   assert.equal(response.status, 200)
   assert.match(html, /<title>Pricing Plans \| Ruflo AI<\/title>/)
-  assert.match(html, /<meta name="robots" content="noindex,follow" \/>/)
+  assert.match(html, /<meta name="robots" content="index,follow" \/>/)
   assert.match(html, /Starter is \$19\/mo, Growth is \$49\/mo, and Scale is \$149\/mo/)
   assert.match(html, /Checkout and launch workspace/)
 })
 
 test('Cloudflare worker renders canonical pricing SEO with current catalog prices', async () => {
   const response = await handleCloudflareRequest(
-    new Request('https://ruflo.online/pricing', {
+    new Request('https://ruflo.online/plans', {
       headers: {
         Accept: 'text/html',
       },
@@ -430,8 +430,8 @@ test('Cloudflare worker renders canonical pricing SEO with current catalog price
   const html = await response.text()
 
   assert.equal(response.status, 200)
-  assert.match(html, /<link rel="canonical" href="https:\/\/ruflo\.online\/pricing" \/>/)
-  assert.match(html, /Ruflo AI pricing and checkout options/)
+  assert.match(html, /<link rel="canonical" href="https:\/\/ruflo\.online\/plans" \/>/)
+  assert.match(html, /Ruflo pricing plans and hosted checkout/)
   assert.match(html, /"name":"Growth monthly","price":"49"/)
   assert.doesNotMatch(html, /"price":"99"/)
 })

@@ -51,19 +51,19 @@ const indexableSitemapPaths = [
   '/resources',
   '/privacy',
   '/terms',
-  '/pricing',
+  '/plans',
 ]
 const creemProductCache = new Map()
 
 const seoPageMap = new Map([
   [
-    '/pricing',
+    '/plans',
     {
       title: 'Pricing Plans | Ruflo AI',
       description:
         'Ruflo AI pricing lists Starter at $19/mo, Growth at $49/mo, and Scale at $149/mo with annual checkout and support details.',
       robots: 'index,follow',
-      canonicalPath: '/pricing',
+      canonicalPath: '/plans',
     },
   ],
   [
@@ -314,15 +314,6 @@ const seoPageMap = new Map([
       description:
         'Review the Ruflo AI Terms of Service for account, order, payment, provisioning, console, and support usage.',
       robots: 'index,follow',
-    },
-  ],
-  [
-    '/plans',
-    {
-      title: 'Pricing Plans | Ruflo AI',
-      description:
-        'Choose a Ruflo AI plan based on workspace volume, then continue into hosted Creem checkout and provisioning tracking.',
-      robots: 'noindex,follow',
     },
   ],
   [
@@ -1678,7 +1669,7 @@ async function serializeOrder(env, row, viewerContext = null) {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     paidAt: row.paid_at,
-    checkoutPath: `/checkout?order=${row.id}${guestTokenQuery}`,
+    checkoutPath: `/plans?order=${row.id}${guestTokenQuery}`,
     consolePath: `/console?order=${row.id}${guestTokenQuery}`,
     deployment,
     deployments,
@@ -2586,7 +2577,7 @@ function getRouteStructuredData(seo, normalizedPath) {
     offers: getPlanOfferStructuredData(origin),
   }
 
-  if (normalizedPath === '/pricing') {
+  if (normalizedPath === '/plans') {
     return {
       '@context': 'https://schema.org',
       '@graph': [
@@ -2994,9 +2985,13 @@ function getCanonicalRedirectResponse(request) {
   }
 
   const indexRedirects = new Map([
-    ['/pricing/index.html', '/pricing'],
+    ['/pricing', '/plans'],
+    ['/pricing/', '/plans'],
+    ['/pricing/index.html', '/plans'],
     ['/resources/index.html', '/resources'],
-    ['/checkout/index.html', '/checkout'],
+    ['/checkout', '/plans'],
+    ['/checkout/', '/plans'],
+    ['/checkout/index.html', '/plans'],
   ])
   const indexRedirect = indexRedirects.get(target.pathname)
   if (indexRedirect) {
