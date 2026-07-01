@@ -43,3 +43,10 @@ Follow-ups: re-run the all-sites SEO/GEO + build checklist after production depl
 - Replaced the old hidden SEO answer block with a readable first-packet fallback inside `#root` where an index shell exists.
 - Refreshed pricing, checkout fallback, privacy, terms, sitemap, robots, and llms surfaces for the exposure-click rescue checklist.
 - Verification pending: rebuild/deploy and rerun the exposure rescue checklist.
+
+## 2026-07-01 - MiroFish contextual reference
+
+- Added one contextual related-resource link to MiroFish AI Simulator with UTM tracking for ruflo.online.
+- Placement rule: secondary Resources/Source context when available, otherwise the homepage tail; no hero, nav, pricing, checkout, or primary CTA links were changed.
+- SEO safety: brand anchor only, one link per canonical site surface, visible editorial context, and no keyword-stuffed footer/sitewide block.
+- Verification pending: run the site build/deploy workflow and live link checks after all portfolio edits are applied.
