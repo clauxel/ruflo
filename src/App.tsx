@@ -3574,24 +3574,24 @@ function App() {
           </a>
           <span className="footer-divider">•</span>
           <a
-            href="/privacy"
+            href="/privacy/"
             className="inline-link"
             data-analytics-click="footer_privacy"
             onClick={(event) => {
               event.preventDefault()
-              navigate('/privacy')
+              navigate('/privacy/')
             }}
           >
             Privacy Policy
           </a>
           <span className="footer-divider">•</span>
           <a
-            href="/terms"
+            href="/terms/"
             className="inline-link"
             data-analytics-click="footer_terms"
             onClick={(event) => {
               event.preventDefault()
-              navigate('/terms')
+              navigate('/terms/')
             }}
           >
             Terms of Service

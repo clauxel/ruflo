@@ -10,12 +10,12 @@ const liveOrigin = 'https://ruflo.online'
 
 const expectedMarketingUrls = [
   `${liveOrigin}/`,
-  `${liveOrigin}/docs`,
-  `${liveOrigin}/features`,
-  `${liveOrigin}/github`,
-  `${liveOrigin}/guides`,
-  `${liveOrigin}/how-it-works`,
-  `${liveOrigin}/use-cases`,
+  `${liveOrigin}/docs/`,
+  `${liveOrigin}/features/`,
+  `${liveOrigin}/github/`,
+  `${liveOrigin}/guides/`,
+  `${liveOrigin}/how-it-works/`,
+  `${liveOrigin}/use-cases/`,
   `${liveOrigin}/compare/ruflo-vs-single-agent-tools`,
   `${liveOrigin}/compare/hosted-ruflo-vs-self-hosting`,
   `${liveOrigin}/solutions/codebase-swarms`,
@@ -35,9 +35,9 @@ const expectedMarketingUrls = [
   `${liveOrigin}/resources/team-agent-operations`,
   `${liveOrigin}/resources/is-ruflo-legit`,
   `${liveOrigin}/resources/ruflo-ui`,
-  `${liveOrigin}/resources`,
-  `${liveOrigin}/privacy`,
-  `${liveOrigin}/terms`,
+  `${liveOrigin}/resources/`,
+  `${liveOrigin}/privacy/`,
+  `${liveOrigin}/terms/`,
   `${liveOrigin}/plans`,
 ]
 

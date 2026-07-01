@@ -29,6 +29,12 @@ const guestTtlSeconds = 90 * 24 * 60 * 60
 const sessionTtlSeconds = 7 * 24 * 60 * 60
 const indexableSitemapPaths = [
   '/',
+  '/features/',
+  '/how-it-works/',
+  '/use-cases/',
+  '/guides/',
+  '/docs/',
+  '/github/',
   '/compare/ruflo-vs-single-agent-tools',
   '/compare/hosted-ruflo-vs-self-hosting',
   '/solutions/codebase-swarms',
@@ -48,11 +54,22 @@ const indexableSitemapPaths = [
   '/resources/team-agent-operations',
   '/resources/is-ruflo-legit',
   '/resources/ruflo-ui',
+  '/resources/',
+  '/privacy/',
+  '/terms/',
+  '/plans',
+]
+const directoryCanonicalPaths = new Set([
+  '/features',
+  '/how-it-works',
+  '/use-cases',
+  '/guides',
+  '/docs',
+  '/github',
   '/resources',
   '/privacy',
   '/terms',
-  '/plans',
-]
+])
 const creemProductCache = new Map()
 
 const seoPageMap = new Map([
@@ -73,7 +90,64 @@ const seoPageMap = new Map([
       description:
         'Browse Ruflo AI guides for hosted multi-agent workspaces, Codex, Claude Code, GitHub evaluation, pricing, privacy, and checkout readiness.',
       robots: 'index,follow',
-      canonicalPath: '/resources',
+      canonicalPath: '/resources/',
+    },
+  ],
+  [
+    '/features',
+    {
+      title: 'Features - Ruflo AI for hosted Ruflo workspace and AI coding orchestration launch layer',
+      description:
+        'Ruflo AI features, limits, pricing context, and workflow details for hosted Ruflo workspace and AI coding orchestration launch layer.',
+      robots: 'index,follow',
+      canonicalPath: '/features/',
+    },
+  ],
+  [
+    '/how-it-works',
+    {
+      title: 'How It Works - Ruflo AI workflow',
+      description:
+        'Step-by-step workflow for Ruflo AI, including inputs, review steps, outputs, pricing context, and limits.',
+      robots: 'index,follow',
+      canonicalPath: '/how-it-works/',
+    },
+  ],
+  [
+    '/use-cases',
+    {
+      title: 'Use Cases - Ruflo AI practical workflows',
+      description: 'Practical use cases for Ruflo AI, with when-to-use guidance, limits, and next steps.',
+      robots: 'index,follow',
+      canonicalPath: '/use-cases/',
+    },
+  ],
+  [
+    '/guides',
+    {
+      title: 'Guides - Ruflo AI setup and review playbooks',
+      description: 'Guides for using Ruflo AI with concrete review steps, repository context, and product limits.',
+      robots: 'index,follow',
+      canonicalPath: '/guides/',
+    },
+  ],
+  [
+    '/docs',
+    {
+      title: 'Docs - Ruflo AI product reference',
+      description:
+        'Documentation index for Ruflo AI, covering input fields, output contract, support boundary, pricing context, and linked repositories.',
+      robots: 'index,follow',
+      canonicalPath: '/docs/',
+    },
+  ],
+  [
+    '/github',
+    {
+      title: 'GitHub - Ruflo AI docs repository and source context',
+      description: 'GitHub documentation repository, upstream source context, and evaluation notes for Ruflo AI.',
+      robots: 'index,follow',
+      canonicalPath: '/github/',
     },
   ],
   [
@@ -305,6 +379,7 @@ const seoPageMap = new Map([
       description:
         'Read how Ruflo AI processes visitor, account, order, payment, provisioning, and support information.',
       robots: 'index,follow',
+      canonicalPath: '/privacy/',
     },
   ],
   [
@@ -314,6 +389,7 @@ const seoPageMap = new Map([
       description:
         'Review the Ruflo AI Terms of Service for account, order, payment, provisioning, console, and support usage.',
       robots: 'index,follow',
+      canonicalPath: '/terms/',
     },
   ],
   [
@@ -2988,7 +3064,7 @@ function getCanonicalRedirectResponse(request) {
     ['/pricing', '/plans'],
     ['/pricing/', '/plans'],
     ['/pricing/index.html', '/plans'],
-    ['/resources/index.html', '/resources'],
+    ['/resources/index.html', '/resources/'],
     ['/checkout', '/plans'],
     ['/checkout/', '/plans'],
     ['/checkout/index.html', '/plans'],
@@ -2998,14 +3074,18 @@ function getCanonicalRedirectResponse(request) {
     target.pathname = indexRedirect
     changed = true
   } else if (target.pathname.endsWith('/index.html')) {
-    target.pathname = target.pathname.replace(/\/index\.html$/i, '') || '/'
+    const directoryPath = target.pathname.replace(/\/index\.html$/i, '') || '/'
+    target.pathname = directoryCanonicalPaths.has(directoryPath) ? `${directoryPath}/` : directoryPath
     changed = true
   } else if (
     target.pathname.length > 1 &&
     target.pathname.endsWith('/')
   ) {
-    target.pathname = target.pathname.replace(/\/+$/, '')
-    changed = true
+    const directoryPath = target.pathname.replace(/\/+$/, '')
+    if (!directoryCanonicalPaths.has(directoryPath)) {
+      target.pathname = directoryPath
+      changed = true
+    }
   }
 
   if (!changed) {

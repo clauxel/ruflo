@@ -36,12 +36,12 @@ Docs repository: https://github.com/clauxel/ruflo-online-docs
 Upstream source context: Ruflo - https://github.com/ruvnet/ruflo
 
 Public navigation pages:
-- Features: https://ruflo.online/features
-- How It Works: https://ruflo.online/how-it-works
-- Use Cases: https://ruflo.online/use-cases
-- Guides: https://ruflo.online/guides
-- Docs: https://ruflo.online/docs
-- GitHub: https://ruflo.online/github
+- Features: https://ruflo.online/features/
+- How It Works: https://ruflo.online/how-it-works/
+- Use Cases: https://ruflo.online/use-cases/
+- Guides: https://ruflo.online/guides/
+- Docs: https://ruflo.online/docs/
+- GitHub: https://ruflo.online/github/
 - Pricing: https://ruflo.online/plans
 
 Important limits:

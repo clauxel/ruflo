@@ -119,7 +119,7 @@ test('Cloudflare worker keeps temporary workers.dev hosts out of public SEO asse
 
   assert.equal(sitemapResponse.status, 200)
   assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/<\/loc>/)
-  assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/resources<\/loc>/)
+  assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/resources\/<\/loc>/)
   assert.match(sitemapXml, /<loc>https:\/\/ruflo\.online\/plans<\/loc>/)
   assert.doesNotMatch(sitemapXml, /workers\.dev/)
   assert.equal(robotsResponse.status, 200)
@@ -158,12 +158,12 @@ test('Cloudflare worker redirects legacy pricing aliases and canonicalizes resou
   }
 
   const pricingResponse = await handleCloudflareRequest(new Request('https://ruflo.online/pricing/'), env)
-  const resourcesResponse = await handleCloudflareRequest(new Request('https://ruflo.online/resources/'), env)
+  const resourcesResponse = await handleCloudflareRequest(new Request('https://ruflo.online/resources/index.html'), env)
 
   assert.equal(pricingResponse.status, 301)
   assert.equal(pricingResponse.headers.get('Location'), 'https://ruflo.online/plans')
   assert.equal(resourcesResponse.status, 301)
-  assert.equal(resourcesResponse.headers.get('Location'), 'https://ruflo.online/resources')
+  assert.equal(resourcesResponse.headers.get('Location'), 'https://ruflo.online/resources/')
 })
 
 test('Cloudflare worker injects crawlable route fallback content into HTML', async () => {
@@ -195,7 +195,7 @@ test('Cloudflare worker injects crawlable route fallback content into HTML', asy
 
 test('Cloudflare worker serves resources hub as an indexable page', async () => {
   const response = await handleCloudflareRequest(
-    new Request('https://ruflo.online/resources', {
+    new Request('https://ruflo.online/resources/', {
       headers: {
         Accept: 'text/html',
       },

@@ -144,6 +144,12 @@ const navPages = [
     "label": "GitHub"
   }
 ]
+const directoryCanonicalPaths = new Set([
+  ...navPages.map((page) => '/' + page.slug),
+  '/resources',
+  '/privacy',
+  '/terms',
+])
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const today = new Date().toISOString().slice(0, 10)
 
@@ -184,11 +190,11 @@ async function upsertSitemap(root) {
   const current = await readIfExists(filePath)
   const urls = new Set()
   if (current) {
-    for (const match of current.matchAll(/<loc>([^<]+)<\/loc>/g)) urls.add(match[1])
+    for (const match of current.matchAll(/<loc>([^<]+)<\/loc>/g)) urls.add(normalizeSitemapUrl(match[1]))
   }
   urls.add(site.origin + '/')
   urls.add(canonical('/plans'))
-  for (const navPage of navPages) urls.add(canonical('/' + navPage.slug))
+  for (const navPage of navPages) urls.add(canonical('/' + navPage.slug + '/'))
   const body = [...urls]
     .sort()
     .map((url) => {
@@ -286,7 +292,7 @@ function renderPage(navPage) {
   const description = model.description
   const canonicalUrl = canonical('/' + navPage.slug)
   const schema = buildSchema(navPage, model, canonicalUrl)
-  return '<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>' + escapeHtml(title) + '</title>\n  <meta name="description" content="' + escapeAttr(description) + '">\n  <meta name="robots" content="index,follow">\n  <link rel="canonical" href="' + escapeAttr(canonicalUrl) + '">\n  <link rel="alternate" type="text/plain" href="' + site.origin + '/llms.txt" title="llms.txt">\n  <meta property="og:type" content="website">\n  <meta property="og:title" content="' + escapeAttr(title) + '">\n  <meta property="og:description" content="' + escapeAttr(description) + '">\n  <meta property="og:url" content="' + escapeAttr(canonicalUrl) + '">\n  <meta name="twitter:card" content="summary">\n  <meta name="twitter:title" content="' + escapeAttr(title) + '">\n  <meta name="twitter:description" content="' + escapeAttr(description) + '">\n  <style>' + css() + '</style>\n  <script type="application/ld+json">' + jsonForHtml(schema) + '</script>\n</head>\n<body>\n  <header class="topbar">\n    <a class="brand" href="/"><span>' + escapeHtml(site.shortName) + '</span><small>' + escapeHtml(site.category) + '</small></a>\n    <nav aria-label="Primary navigation">' + navPages.map((page) => '<a href="/' + page.slug + '" ' + (page.slug === navPage.slug ? 'aria-current="page"' : '') + '>' + escapeHtml(page.label) + '</a>').join('') + '<a href="' + escapeAttr(site.ctaPath) + '">Pricing</a></nav>\n  </header>\n  <main>\n    <section class="hero">\n      <p class="eyebrow">' + escapeHtml(site.domain) + ' / ' + escapeHtml(navPage.label) + '</p>\n      <h1>' + escapeHtml(model.h1) + '</h1>\n      <p class="lead">' + escapeHtml(model.lead) + '</p>\n      <div class="actions"><a class="button primary" href="' + escapeAttr(site.ctaPath) + '">View pricing or start</a><a class="button" href="' + escapeAttr(site.docsRepo) + '">Open docs repository</a></div>\n    </section>\n    ' + renderQuickFacts() + renderSections(model.sections) + renderUsefulChecks(model) + renderLimits() + renderFaq(model) + '\n  </main>\n  <footer>\n    <strong>' + escapeHtml(site.name) + '</strong>\n    <span>' + escapeHtml(site.disclaimer) + '</span>\n    <nav><a href="/">Home</a><a href="/sitemap.xml">Sitemap</a><a href="/llms.txt">llms.txt</a><a href="mailto:' + site.support + '">' + site.support + '</a></nav>\n  </footer>\n</body>\n</html>\n'
+  return '<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>' + escapeHtml(title) + '</title>\n  <meta name="description" content="' + escapeAttr(description) + '">\n  <meta name="robots" content="index,follow">\n  <link rel="canonical" href="' + escapeAttr(canonicalUrl) + '">\n  <link rel="alternate" type="text/plain" href="' + site.origin + '/llms.txt" title="llms.txt">\n  <meta property="og:type" content="website">\n  <meta property="og:title" content="' + escapeAttr(title) + '">\n  <meta property="og:description" content="' + escapeAttr(description) + '">\n  <meta property="og:url" content="' + escapeAttr(canonicalUrl) + '">\n  <meta name="twitter:card" content="summary">\n  <meta name="twitter:title" content="' + escapeAttr(title) + '">\n  <meta name="twitter:description" content="' + escapeAttr(description) + '">\n  <style>' + css() + '</style>\n  <script type="application/ld+json">' + jsonForHtml(schema) + '</script>\n</head>\n<body>\n  <header class="topbar">\n    <a class="brand" href="/"><span>' + escapeHtml(site.shortName) + '</span><small>' + escapeHtml(site.category) + '</small></a>\n    <nav aria-label="Primary navigation">' + navPages.map((page) => '<a href="/' + page.slug + '/" ' + (page.slug === navPage.slug ? 'aria-current="page"' : '') + '>' + escapeHtml(page.label) + '</a>').join('') + '<a href="' + escapeAttr(site.ctaPath) + '">Pricing</a></nav>\n  </header>\n  <main>\n    <section class="hero">\n      <p class="eyebrow">' + escapeHtml(site.domain) + ' / ' + escapeHtml(navPage.label) + '</p>\n      <h1>' + escapeHtml(model.h1) + '</h1>\n      <p class="lead">' + escapeHtml(model.lead) + '</p>\n      <div class="actions"><a class="button primary" href="' + escapeAttr(site.ctaPath) + '">View pricing or start</a><a class="button" href="' + escapeAttr(site.docsRepo) + '">Open docs repository</a></div>\n    </section>\n    ' + renderQuickFacts() + renderSections(model.sections) + renderUsefulChecks(model) + renderLimits() + renderFaq(model) + '\n  </main>\n  <footer>\n    <strong>' + escapeHtml(site.name) + '</strong>\n    <span>' + escapeHtml(site.disclaimer) + '</span>\n    <nav><a href="/">Home</a><a href="/sitemap.xml">Sitemap</a><a href="/llms.txt">llms.txt</a><a href="mailto:' + site.support + '">' + site.support + '</a></nav>\n  </footer>\n</body>\n</html>\n'
 }
 
 function pageModel(slug) {
@@ -500,7 +506,7 @@ function renderLlmsSection() {
   if (site.aliases.length) lines.push('Also served on: ' + site.aliases.map((alias) => 'https://' + alias).join(', '))
   if (site.upstreamRepo) lines.push('Upstream source context: ' + site.upstreamName + ' - ' + site.upstreamRepo)
   lines.push('', 'Public navigation pages:')
-  for (const page of navPages) lines.push('- ' + page.label + ': ' + canonical('/' + page.slug))
+  for (const page of navPages) lines.push('- ' + page.label + ': ' + canonical('/' + page.slug + '/'))
   lines.push('- Pricing: ' + canonical(site.ctaPath), '', 'Important limits:')
   for (const limit of site.limits) lines.push('- ' + limit)
   lines.push('- ' + site.disclaimer)
@@ -511,7 +517,25 @@ function canonical(inputPath) {
   if (/^https?:\/\//i.test(inputPath)) return inputPath
   const clean = ('/' + String(inputPath).replace(/^\/+/g, '')).replace(/\/index\.html$/i, '/')
   if (clean === '/') return site.origin + '/'
-  return site.origin + clean.replace(/\/+$/, '')
+  const normalized = clean.replace(/\/+$/, '')
+  if (directoryCanonicalPaths.has(normalized)) return site.origin + normalized + '/'
+  return site.origin + normalized
+}
+
+function normalizeSitemapUrl(rawUrl) {
+  try {
+    const url = new URL(rawUrl)
+    if (url.origin !== site.origin) return rawUrl
+    const normalizedPath = url.pathname.replace(/\/+$/, '') || '/'
+    if (directoryCanonicalPaths.has(normalizedPath)) {
+      url.pathname = normalizedPath + '/'
+      return url.toString()
+    }
+  } catch {
+    return rawUrl
+  }
+
+  return rawUrl
 }
 
 function linkify(value) {
