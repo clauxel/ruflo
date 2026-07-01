@@ -72,6 +72,32 @@ const directoryCanonicalPaths = new Set([
 ])
 const creemProductCache = new Map()
 
+function mirofishUrl(request, content = 'resources_context') {
+  const hostname = new URL(request.url).hostname.replace(/^www\./, '').toLowerCase()
+  const params = new URLSearchParams({
+    utm_source: hostname,
+    utm_medium: 'owned_resource',
+    utm_campaign: 'portfolio_contextual_backlink',
+    utm_content: content,
+  })
+  return `https://mirofish.work/?${params.toString()}`
+}
+
+function withMirofishReference(html, request) {
+  const href = mirofishUrl(request)
+  let next = html.replace(/https:\/\/mirofish\.work\/\?utm_source=[^"'<\s]+/gi, href)
+  if (!/https:\/\/mirofish\.work\/\?utm_source=/i.test(next)) {
+    const block = `<section class="mirofish-contextual-reference" data-mirofish-contextual-backlink aria-labelledby="mirofish-contextual-reference-heading" style="max-width:1120px;margin:28px auto;padding:16px;border:1px solid rgba(100,116,139,.28);border-radius:8px;background:rgba(255,255,255,.72);color:inherit">
+  <h2 id="mirofish-contextual-reference-heading" style="font-size:18px;line-height:1.25;margin:0 0 8px;letter-spacing:0">Related AI workflow reference</h2>
+  <p style="margin:0;color:inherit;opacity:.82">Ruflo readers comparing agent workflow assumptions can also review <a href="${href}" target="_blank" rel="noopener">MiroFish AI Simulator</a>, a companion reference for simulation-style product reasoning.</p>
+</section>`
+    next = /<\/main>/i.test(next)
+      ? next.replace(/<\/main>/i, `${block}\n</main>`)
+      : next.replace(/<\/body>/i, `${block}\n</body>`)
+  }
+  return next
+}
+
 const seoPageMap = new Map([
   [
     '/plans',
@@ -2785,7 +2811,7 @@ function renderSeoHtml(request, env, pathname, templateHtml) {
 
   html = injectSeoFallback(html, seo, pathname)
 
-  return html
+  return withMirofishReference(html, request)
 }
 
 function renderRobotsTxt(request, env) {

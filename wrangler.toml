@@ -2,6 +2,11 @@ name = "my-ruflo"
 main = "worker/index.js"
 compatibility_date = "2026-05-02"
 
+routes = [
+  { pattern = "ruflo.online/*", zone_name = "ruflo.online" },
+  { pattern = "www.ruflo.online/*", zone_name = "ruflo.online" }
+]
+
 [build]
 command = "npm run build:worker"
 watch_dir = "src"
