@@ -9,8 +9,8 @@ Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Rufl
 
 ## Core pages
 - Home: https://ruflo.online/
-- Pricing: https://ruflo.online/pricing/
-- Checkout fallback: https://ruflo.online/checkout/
+- Pricing: https://ruflo.online/pricing
+- Checkout: https://ruflo.online/plans?plan=growth&billing=annual
 - Privacy: https://ruflo.online/privacy/
 - Terms: https://ruflo.online/terms/
 
@@ -21,4 +21,3 @@ Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Rufl
 - Starter: $19/mo public planning anchor
 - Growth: $49/mo public planning anchor
 - Scale: $149/mo public planning anchor
-

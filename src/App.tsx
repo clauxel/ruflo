@@ -321,7 +321,6 @@ function App() {
   const showMulticaManagementLoading = showConsoleInitialLoading && multicaManagementRows.length === 0
 
   const currentGuide = activeGuide ? guideContent[activeGuide] : null
-  const hasLaunchDraft = selectedModelId.trim().length > 0
 
   const scheduleConsoleAutoRefresh = () => {
     setConsoleAutoRefreshUntil(Date.now() + 120_000)
@@ -679,15 +678,30 @@ function App() {
   }
 
   useEffect(() => {
-    if (normalizePathname(currentPathname) !== '/checkout') {
+    if (routeView !== 'plans') {
       return
     }
 
-    window.history.replaceState({}, '', `/console${currentSearch}`)
-    setCurrentPathname(window.location.pathname)
-    setCurrentSearch(window.location.search)
-    setCurrentHash(window.location.hash)
-  }, [currentPathname, currentSearch])
+    const planParam = checkoutSearchParams.get('plan')
+    if (planParam && plans.some((item) => item.id === planParam)) {
+      setSelectedPlanId(planParam)
+    }
+
+    const billingParam = checkoutSearchParams.get('billing')
+    if (billingParam === 'annual' || billingParam === 'monthly') {
+      setBillingCycle(billingParam)
+    }
+
+    const modelParam = checkoutSearchParams.get('model')
+    if (modelParam && models.some((item) => item.id === modelParam)) {
+      setSelectedModelId(modelParam)
+    }
+
+    const channelParam = checkoutSearchParams.get('channel')
+    if (channelParam && channels.some((item) => item.id === channelParam)) {
+      setSelectedChannelId(channelParam)
+    }
+  }, [checkoutSearchParams, routeView])
 
   useEffect(() => {
     initializeAnalytics()
@@ -706,15 +720,11 @@ function App() {
       void loadConsoleData({ showLoadingState: !consoleLoadedOnce })
     }
 
-    if (routeView === 'plans' && !hasLaunchDraft) {
-      const restored = restoreLaunchDraft()
-      if (!restored) {
-        setStatusMessage('Complete your launch details first, then continue to plan selection.')
-        navigate('/')
-      }
+    if (routeView === 'plans') {
+      restoreLaunchDraft()
     }
 
-  }, [authReady, hasHostedCheckoutRedirect, hasLaunchDraft, routeView])
+  }, [authReady, hasHostedCheckoutRedirect, routeView])
 
   useEffect(() => {
     if (!authReady || signedIn || !redirectAfterLogin || authMode) {
@@ -2056,7 +2066,7 @@ function App() {
                         <span>{monthlyPricing.priceLabel}</span>
                         <span className="price-cycle">/mo</span>
                       </div>
-                      <p className="pricing-billing-note">Annual checkout applies 50% off yearly billing.</p>
+                      <p className="pricing-billing-note">Annual checkout applies 50% off yearly billing. The selected cycle is shown before payment handoff.</p>
                       <p className="plan-subtitle">{plan.subtitle}</p>
                       <ul>
                         {plan.bullets.map((bullet) => (
@@ -2639,7 +2649,7 @@ function App() {
                       <span>Monthly</span>
                     </button>
                   </div>
-                  <div className="billing-toggle-note">Limited-time annual discount</div>
+                  <div className="billing-toggle-note">Limited-time annual discount. Checkout confirms monthly or yearly before payment handoff.</div>
                 </div>
                 <div className="pricing-grid compact-pricing-grid">
                   {plans.map((plan) => {

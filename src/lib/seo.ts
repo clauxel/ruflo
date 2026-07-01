@@ -58,6 +58,10 @@ function buildCanonicalUrl(origin: string, pathname: string) {
   return new URL(normalizePathname(pathname), `${normalizeOrigin(origin)}/`).toString()
 }
 
+function buildOgImageUrl(origin: string) {
+  return new URL('/og-image.png', `${normalizeOrigin(origin)}/`).toString()
+}
+
 function buildWebPageStructuredData(title: string, description: string, canonicalUrl: string): StructuredDataRecord {
   return {
     '@context': 'https://schema.org',
@@ -169,7 +173,7 @@ function buildNotFoundSeoDocument(origin: string, pathname: string): SeoDocument
     description,
     keywords: defaultSiteKeywords,
     canonicalUrl: buildCanonicalUrl(origin, pathname),
-    robots: 'noindex,nofollow',
+    robots: 'noindex,follow',
     structuredData: [buildWebPageStructuredData(title, description, buildCanonicalUrl(origin, pathname))],
   }
 }
@@ -365,7 +369,7 @@ export function buildSeoDocument({
       description,
       keywords: ['Ruflo AI pricing', 'hosted Ruflo workspace pricing', ...defaultSiteKeywords],
       canonicalUrl,
-      robots: 'noindex,nofollow',
+      robots: 'noindex,follow',
       structuredData: [buildWebPageStructuredData(title, description, canonicalUrl)],
     }
   }
@@ -441,6 +445,7 @@ function upsertStructuredData(structuredData: StructuredDataRecord[]) {
 
 export function syncSeoDocument(seo: SeoDocument) {
   document.title = seo.title
+  const ogImageUrl = buildOgImageUrl(new URL(seo.canonicalUrl).origin)
 
   upsertMeta('name', 'description', seo.description)
   upsertMeta('name', 'keywords', seo.keywords.join(', '))
@@ -450,9 +455,13 @@ export function syncSeoDocument(seo: SeoDocument) {
   upsertMeta('property', 'og:title', seo.title)
   upsertMeta('property', 'og:description', seo.description)
   upsertMeta('property', 'og:url', seo.canonicalUrl)
+  upsertMeta('property', 'og:image', ogImageUrl)
+  upsertMeta('property', 'og:image:width', '1200')
+  upsertMeta('property', 'og:image:height', '630')
   upsertMeta('name', 'twitter:card', 'summary_large_image')
   upsertMeta('name', 'twitter:title', seo.title)
   upsertMeta('name', 'twitter:description', seo.description)
+  upsertMeta('name', 'twitter:image', ogImageUrl)
   upsertCanonicalLink(seo.canonicalUrl)
   upsertStructuredData(seo.structuredData)
 }

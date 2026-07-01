@@ -48,10 +48,9 @@ const indexableSitemapPaths = [
   '/resources/team-agent-operations',
   '/resources/is-ruflo-legit',
   '/resources/ruflo-ui',
-  '/resources/',
+  '/resources',
   '/privacy',
   '/terms',
-  '/pricing/',
   '/pricing',
 ]
 const creemProductCache = new Map()
@@ -64,7 +63,7 @@ const seoPageMap = new Map([
       description:
         'Ruflo AI pricing lists Starter at $19/mo, Growth at $49/mo, and Scale at $149/mo with annual checkout and support details.',
       robots: 'index,follow',
-      canonicalPath: '/pricing/',
+      canonicalPath: '/pricing',
     },
   ],
   [
@@ -74,7 +73,7 @@ const seoPageMap = new Map([
       description:
         'Browse Ruflo AI guides for hosted multi-agent workspaces, Codex, Claude Code, GitHub evaluation, pricing, privacy, and checkout readiness.',
       robots: 'index,follow',
-      canonicalPath: '/resources/',
+      canonicalPath: '/resources',
     },
   ],
   [
@@ -323,7 +322,7 @@ const seoPageMap = new Map([
       title: 'Pricing Plans | Ruflo AI',
       description:
         'Choose a Ruflo AI plan based on workspace volume, then continue into hosted Creem checkout and provisioning tracking.',
-      robots: 'noindex,nofollow',
+      robots: 'noindex,follow',
     },
   ],
   [
@@ -341,7 +340,7 @@ const seoPageMap = new Map([
       title: 'Checkout | Ruflo AI',
       description:
         'Review Ruflo AI checkout details, selected plan context, hosted Creem payment handoff, support contact, and provisioning follow-up.',
-      robots: 'noindex,nofollow',
+      robots: 'noindex,follow',
     },
   ],
 ])
@@ -352,11 +351,12 @@ const seoFallbackContent = new Map([
     {
       heading: 'Ruflo AI pricing and checkout options',
       intro:
-        'Ruflo AI pricing uses three public monthly plan amounts and an annual checkout path. Starter is $19/mo, Growth is $49/mo, and Scale is $149/mo before annual discounts.',
+        'Ruflo AI pricing uses three public monthly plan amounts and explicit monthly or yearly checkout. Starter is $19/mo, Growth is $49/mo, and Scale is $149/mo before annual discounts.',
       points: [
         'Starter fits one hosted Ruflo workspace with a Claude Code or Codex entrypoint.',
         'Growth is the common team plan with five workspaces, review flows, and reusable memory.',
         'Scale supports larger agent programs with 20 workspaces and priority launch support.',
+        'Checkout states the selected billing cycle before handoff; plans do not silently auto-renew from a hidden subscription.',
       ],
     },
   ],
@@ -383,6 +383,7 @@ const seoFallbackContent = new Map([
         'Public prices are Starter $19/mo, Growth $49/mo, and Scale $149/mo before annual discounts.',
         'Hosted checkout is handled through the configured payment provider; support is available at support@aigeamy.com.',
         'After payment, buyers return to the Ruflo AI site or console to continue provisioning and workspace tracking.',
+        'The page keeps plan and billing context visible before a user leaves the Ruflo AI domain for payment.',
       ],
     },
   ],
@@ -409,6 +410,7 @@ const seoFallbackContent = new Map([
         'Starter is $19/mo, Growth is $49/mo, and Scale is $149/mo before annual discounts.',
         'Annual checkout keeps the billing period explicit and applies 50% off yearly billing.',
         'Use Checkout and launch workspace to open hosted Creem payment, or select USDC Wallet before checkout.',
+        'The selected cycle is shown in the order summary so users can tell monthly and yearly checkout apart.',
       ],
     },
   ],
@@ -753,7 +755,24 @@ async function firstSecretEnv(env, ...keys) {
 
 function getSecurityHeaders() {
   return new Headers({
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      "base-uri 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'none'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.paypalobjects.com",
+      "connect-src 'self' https://api.creem.io https://test-api.creem.io https://api-m.paypal.com https://api-m.sandbox.paypal.com https://api.nowpayments.io",
+      "frame-src https://www.paypal.com https://*.paypal.com",
+      "form-action 'self'",
+      'upgrade-insecure-requests',
+    ].join('; '),
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
     'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
   })
 }
@@ -2466,20 +2485,35 @@ function getSeoConfig(request, env, pathname) {
     description:
       'This Ruflo AI page could not be matched to a public route. Return to the homepage to continue.',
     keywords: defaultSiteKeywords,
-    robots: 'noindex,nofollow',
+    robots: 'noindex,follow',
     canonicalUrl,
   }
 }
 
 function getPlanOfferStructuredData(origin) {
-  return planCatalog.map((plan) => ({
-    '@type': 'Offer',
-    name: `${plan.name} monthly`,
-    price: String(plan.monthlyAmountCents / 100),
-    priceCurrency: plan.currency,
-    availability: 'https://schema.org/InStock',
-    url: new URL(`/plans?plan=${encodeURIComponent(plan.id)}`, `${origin}/`).toString(),
-  }))
+  return planCatalog.flatMap((plan) => {
+    const monthlyPrice = plan.monthlyAmountCents / 100
+    const yearlyPrice = Math.round(plan.monthlyAmountCents * 12 * annualBillingMultiplier) / 100
+
+    return [
+      {
+        '@type': 'Offer',
+        name: `${plan.name} monthly`,
+        price: String(monthlyPrice),
+        priceCurrency: plan.currency,
+        availability: 'https://schema.org/InStock',
+        url: new URL(`/plans?plan=${encodeURIComponent(plan.id)}&billing=monthly`, `${origin}/`).toString(),
+      },
+      {
+        '@type': 'Offer',
+        name: `${plan.name} yearly`,
+        price: String(yearlyPrice),
+        priceCurrency: plan.currency,
+        availability: 'https://schema.org/InStock',
+        url: new URL(`/plans?plan=${encodeURIComponent(plan.id)}&billing=annual`, `${origin}/`).toString(),
+      },
+    ]
+  })
 }
 
 function getDefaultFaqStructuredData() {
@@ -2605,6 +2639,7 @@ function replaceStructuredData(html, seo, normalizedPath) {
 function renderSeoHtml(request, env, pathname, templateHtml) {
   const seo = getSeoConfig(request, env, pathname)
   const normalizedPath = normalizeSeoPathname(pathname)
+  const ogImageUrl = new URL('/og-image.png', `${getRequestOrigin(request, env) || defaultOrigin}/`).toString()
 
   let html = templateHtml
   html = injectSeoFallbackBootGuard(html)
@@ -2651,6 +2686,21 @@ function renderSeoHtml(request, env, pathname, templateHtml) {
   )
   html = replaceHeadTag(
     html,
+    /<meta\s+property="og:image"[^>]*>/i,
+    `<meta property="og:image" content="${escapeHtmlAttribute(ogImageUrl)}" />`,
+  )
+  html = replaceHeadTag(
+    html,
+    /<meta\s+property="og:image:width"[^>]*>/i,
+    '<meta property="og:image:width" content="1200" />',
+  )
+  html = replaceHeadTag(
+    html,
+    /<meta\s+property="og:image:height"[^>]*>/i,
+    '<meta property="og:image:height" content="630" />',
+  )
+  html = replaceHeadTag(
+    html,
     /<meta\s+name="twitter:title"[^>]*>/i,
     `<meta name="twitter:title" content="${escapeHtmlAttribute(seo.title)}" />`,
   )
@@ -2658,6 +2708,11 @@ function renderSeoHtml(request, env, pathname, templateHtml) {
     html,
     /<meta\s+name="twitter:description"[^>]*>/i,
     `<meta name="twitter:description" content="${escapeHtmlAttribute(seo.description)}" />`,
+  )
+  html = replaceHeadTag(
+    html,
+    /<meta\s+name="twitter:image"[^>]*>/i,
+    `<meta name="twitter:image" content="${escapeHtmlAttribute(ogImageUrl)}" />`,
   )
   html = replaceStructuredData(html, seo, normalizedPath)
 
@@ -2733,6 +2788,17 @@ async function handleApiRequest(request, env) {
     })
   }
 
+  if (url.pathname === '/api/analytics' && request.method === 'GET') {
+    return sendJson(request, env, {
+      configured: true,
+      endpoint: '/api/analytics/events',
+      storage: hasD1Database(env) ? 'cloudflare_d1' : 'ephemeral_ack',
+      adminEndpoints: hasD1Database(env)
+        ? ['/api/admin/analytics/summary', '/api/admin/analytics/sessions']
+        : [],
+    })
+  }
+
   if (hasD1Database(env)) {
     const d1Response = await handleD1ApiRequest(request, env)
     if (d1Response) {
@@ -2797,14 +2863,68 @@ async function fetchAsset(request, env, assetFetcher) {
   })
 }
 
+function isStaticAssetPath(pathname) {
+  return (
+    pathname.startsWith('/assets/') ||
+    pathname === '/favicon.svg' ||
+    pathname === '/og-image.png' ||
+    /\.(?:avif|css|gif|ico|jpg|jpeg|js|mjs|png|svg|webp|woff2?)$/i.test(pathname)
+  )
+}
+
+function isHtmlRoutePath(pathname) {
+  return !/\.[a-z0-9]+$/i.test(pathname)
+}
+
+function buildAssetRequest(request, pathname) {
+  const assetUrl = new URL(request.url)
+  assetUrl.pathname = pathname
+  assetUrl.search = ''
+  return new Request(assetUrl, request)
+}
+
 async function fetchSpaAsset(request, env, assetFetcher) {
+  const url = new URL(request.url)
+  const normalizedPath = normalizeSeoPathname(url.pathname)
+
+  if (!isHtmlRoutePath(url.pathname)) {
+    return await fetchAsset(request, env, assetFetcher)
+  }
+
+  const appShellPaths = new Set(['/plans', '/checkout', '/console'])
+  const candidatePaths = appShellPaths.has(normalizedPath)
+    ? ['/index.html']
+    : [
+        normalizedPath === '/' ? '/index.html' : `${normalizedPath}/index.html`,
+        '/index.html',
+      ]
+
+  for (const candidatePath of [...new Set(candidatePaths)]) {
+    const response = await fetchAsset(buildAssetRequest(request, candidatePath), env, assetFetcher)
+    if (response.status !== 404 && response.status < 300) {
+      return response
+    }
+  }
+
   const response = await fetchAsset(request, env, assetFetcher)
-  if (response.status !== 404) {
+  if (response.status < 300 || response.status === 404) {
     return response
   }
 
-  const indexUrl = new URL('/index.html', request.url)
-  return await fetchAsset(new Request(indexUrl, request), env, assetFetcher)
+  return await fetchAsset(buildAssetRequest(request, '/index.html'), env, assetFetcher)
+}
+
+function setAssetCacheHeaders(pathname, headers) {
+  if (!isStaticAssetPath(pathname)) {
+    return
+  }
+
+  if (pathname.startsWith('/assets/')) {
+    headers.set('Cache-Control', 'public, max-age=31536000, immutable')
+    return
+  }
+
+  headers.set('Cache-Control', 'public, max-age=86400')
 }
 
 async function renderHtmlAsset(request, env, assetFetcher) {
@@ -2829,7 +2949,7 @@ async function renderHtmlAsset(request, env, assetFetcher) {
   headers.set('Content-Length', String(new TextEncoder().encode(body).length))
   headers.set('Cache-Control', 'no-store')
   if (!isKnownPage) {
-    headers.set('X-Robots-Tag', 'noindex, nofollow')
+    headers.set('X-Robots-Tag', 'noindex, follow')
   }
   for (const [key, value] of getSecurityHeaders()) {
     headers.set(key, value)
@@ -2874,25 +2994,20 @@ function getCanonicalRedirectResponse(request) {
   }
 
   const indexRedirects = new Map([
-    ['/pricing/index.html', '/pricing/'],
-    ['/resources/index.html', '/resources/'],
+    ['/pricing/index.html', '/pricing'],
+    ['/resources/index.html', '/resources'],
     ['/checkout/index.html', '/checkout'],
   ])
   const indexRedirect = indexRedirects.get(target.pathname)
   if (indexRedirect) {
     target.pathname = indexRedirect
     changed = true
-  } else if (target.pathname === '/pricing') {
-    target.pathname = '/pricing/'
-    changed = true
-  } else if (target.pathname === '/resources') {
-    target.pathname = '/resources/'
+  } else if (target.pathname.endsWith('/index.html')) {
+    target.pathname = target.pathname.replace(/\/index\.html$/i, '') || '/'
     changed = true
   } else if (
     target.pathname.length > 1 &&
-    target.pathname.endsWith('/') &&
-    target.pathname !== '/pricing/' &&
-    target.pathname !== '/resources/'
+    target.pathname.endsWith('/')
   ) {
     target.pathname = target.pathname.replace(/\/+$/, '')
     changed = true
@@ -2939,6 +3054,7 @@ export async function handleCloudflareRequest(request, env, options = {}) {
 
     const response = await fetchAsset(request, env, assetFetcher)
     const headers = new Headers(response.headers)
+    setAssetCacheHeaders(url.pathname, headers)
     for (const [key, value] of getSecurityHeaders()) {
       headers.set(key, value)
     }

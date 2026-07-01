@@ -9,8 +9,8 @@ Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Rufl
 
 ## Core pages
 - Home: https://ruflo.online/
-- Pricing: https://ruflo.online/pricing/
-- Checkout fallback: https://ruflo.online/checkout/
+- Pricing: https://ruflo.online/pricing
+- Checkout: https://ruflo.online/plans?plan=growth&billing=annual
 - Privacy: https://ruflo.online/privacy/
 - Terms: https://ruflo.online/terms/
 
@@ -22,3 +22,31 @@ Ruflo AI is a Hosted Ruflo multi-agent workspace for coding teams comparing Rufl
 - Growth: $49/mo public planning anchor
 - Scale: $149/mo public planning anchor
 
+<!-- SAAS_NAV_START -->
+# Ruflo AI navigation reference
+
+Ruflo AI helps teams plan, pay for, provision, and operate Ruflo workspaces with entrypoint choices, console access, and model-route context.
+
+Canonical domain: https://ruflo.online/
+Category: hosted Ruflo workspace and AI coding orchestration launch layer
+Audience: coding teams, automation operators, and builders who want a repeatable Ruflo workspace instead of a one-off local setup
+Pricing: Plans cover hosted workspace capacity, model-route setup, console access, and operational support for repeatable Ruflo work.
+Support: support@aigeamy.com
+Docs repository: https://github.com/clauxel/ruflo-online-docs
+Upstream source context: Ruflo - https://github.com/ruvnet/ruflo
+
+Public navigation pages:
+- Features: https://ruflo.online/features
+- How It Works: https://ruflo.online/how-it-works
+- Use Cases: https://ruflo.online/use-cases
+- Guides: https://ruflo.online/guides
+- Docs: https://ruflo.online/docs
+- GitHub: https://ruflo.online/github
+- Pricing: https://ruflo.online/plans
+
+Important limits:
+- Hosted Ruflo does not guarantee third-party model, repository, or credential provider availability.
+- Teams remain responsible for code review and production decisions made from agent output.
+- Custom enterprise infrastructure may still require a self-hosted or private deployment path.
+- Ruflo AI is a hosted workspace layer around Ruflo-style workflows; the upstream open-source project remains separate.
+<!-- SAAS_NAV_END -->

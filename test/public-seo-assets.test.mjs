@@ -10,6 +10,12 @@ const liveOrigin = 'https://ruflo.online'
 
 const expectedMarketingUrls = [
   `${liveOrigin}/`,
+  `${liveOrigin}/docs`,
+  `${liveOrigin}/features`,
+  `${liveOrigin}/github`,
+  `${liveOrigin}/guides`,
+  `${liveOrigin}/how-it-works`,
+  `${liveOrigin}/use-cases`,
   `${liveOrigin}/compare/ruflo-vs-single-agent-tools`,
   `${liveOrigin}/compare/hosted-ruflo-vs-self-hosting`,
   `${liveOrigin}/solutions/codebase-swarms`,
@@ -29,10 +35,10 @@ const expectedMarketingUrls = [
   `${liveOrigin}/resources/team-agent-operations`,
   `${liveOrigin}/resources/is-ruflo-legit`,
   `${liveOrigin}/resources/ruflo-ui`,
-  `${liveOrigin}/resources/`,
+  `${liveOrigin}/resources`,
   `${liveOrigin}/privacy`,
   `${liveOrigin}/terms`,
-  `${liveOrigin}/pricing/`,
+  `${liveOrigin}/pricing`,
 ]
 
 function escapeRegExp(value) {
@@ -46,6 +52,8 @@ test('static SEO assets point at the live Ruflo origin', () => {
 
   assert.match(indexHtml, new RegExp(`<link rel="canonical" href="${escapeRegExp(`${liveOrigin}/`)}" \\/>`))
   assert.match(indexHtml, new RegExp(`<meta property="og:url" content="${escapeRegExp(`${liveOrigin}/`)}" \\/>`))
+  assert.match(indexHtml, new RegExp(`<meta property="og:image" content="${escapeRegExp(`${liveOrigin}/og-image.png`)}" \\/>`))
+  assert.match(indexHtml, new RegExp(`<meta name="twitter:image" content="${escapeRegExp(`${liveOrigin}/og-image.png`)}" \\/>`))
   assert.match(indexHtml, /<meta\s+name="keywords"\s+content="[^"]*hosted multi-agent workspaces[^"]*Codex workflow[^"]*Claude Code workflow[^"]*RAG workflow[^"]*team agent operations[^"]*"/)
   assert.doesNotMatch(indexHtml, /github\.com\/ruvnet\/ruflo/)
   assert.doesNotMatch(indexHtml, /seo-geo-answer-section/)

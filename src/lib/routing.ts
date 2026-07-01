@@ -24,8 +24,8 @@ export function deriveRouteView(pathname: string): RouteView {
   const normalized = normalizePathname(pathname)
   if (normalized === '/') return 'home'
   if (normalized === '/plans') return 'plans'
+  if (normalized === '/checkout') return 'plans'
   if (normalized === '/console') return 'console'
-  if (normalized === '/checkout') return 'console'
   if (normalized === '/privacy') return 'privacy'
   if (normalized === '/terms') return 'terms'
   if (normalized.startsWith('/compare/')) return 'compare'

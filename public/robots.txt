@@ -1,11 +1,12 @@
 User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no
 Allow: /
 Disallow: /api/
 Disallow: /checkout/done/
-Allow: /pricing/
-Allow: /checkout/
-Allow: /privacy/
-Allow: /terms/
+Allow: /pricing
+Allow: /plans
+Allow: /privacy
+Allow: /terms
 Allow: /llms.txt
 
 User-agent: Googlebot
