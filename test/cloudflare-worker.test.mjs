@@ -152,16 +152,38 @@ test('Cloudflare worker redirects legacy static SEO URLs to canonical routes', a
   assert.equal(response.headers.get('Location'), 'https://ruflo.online/plans?plan=growth&billing=annual&utm_source=test')
 })
 
-test('Cloudflare worker redirects legacy pricing aliases and canonicalizes resources', async () => {
+test('Cloudflare worker serves pricing page and canonicalizes resources', async () => {
   const env = {
     APP_ORIGIN: 'https://ruflo.online',
   }
 
-  const pricingResponse = await handleCloudflareRequest(new Request('https://ruflo.online/pricing/'), env)
-  const resourcesResponse = await handleCloudflareRequest(new Request('https://ruflo.online/resources/index.html'), env)
+  const pricingResponse = await handleCloudflareRequest(
+    new Request('https://ruflo.online/pricing/', {
+      headers: {
+        Accept: 'text/html',
+      },
+    }),
+    env,
+    {
+      assetFetcher: async (request) => {
+        const url = new URL(request.url)
+        if (url.pathname === '/pricing/index.html') {
+          return new Response(seoHtmlTemplate, {
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+            },
+          })
+        }
 
-  assert.equal(pricingResponse.status, 301)
-  assert.equal(pricingResponse.headers.get('Location'), 'https://ruflo.online/plans')
+        return new Response('Not found', { status: 404 })
+      },
+    },
+  )
+  const resourcesResponse = await handleCloudflareRequest(new Request('https://ruflo.online/resources/index.html'), env)
+  const pricingHtml = await pricingResponse.text()
+
+  assert.equal(pricingResponse.status, 200)
+  assert.match(pricingHtml, /<title>Pricing - Ruflo AI<\/title>/)
   assert.equal(resourcesResponse.status, 301)
   assert.equal(resourcesResponse.headers.get('Location'), 'https://ruflo.online/resources/')
 })

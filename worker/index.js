@@ -57,6 +57,7 @@ const indexableSitemapPaths = [
   '/resources/',
   '/privacy/',
   '/terms/',
+  '/pricing/',
   '/plans',
 ]
 const directoryCanonicalPaths = new Set([
@@ -69,6 +70,7 @@ const directoryCanonicalPaths = new Set([
   '/resources',
   '/privacy',
   '/terms',
+  '/pricing',
 ])
 const creemProductCache = new Map()
 
@@ -99,6 +101,16 @@ function withMirofishReference(html, request) {
 }
 
 const seoPageMap = new Map([
+  [
+    '/pricing',
+    {
+      title: 'Pricing - Ruflo AI',
+      description:
+        'Ruflo AI pricing shows Starter, Growth, and Scale plans with annual checkout links, workspace capacity, and support evidence.',
+      robots: 'index,follow',
+      canonicalPath: '/pricing/',
+    },
+  ],
   [
     '/plans',
     {
@@ -3087,9 +3099,6 @@ function getCanonicalRedirectResponse(request) {
   }
 
   const indexRedirects = new Map([
-    ['/pricing', '/plans'],
-    ['/pricing/', '/plans'],
-    ['/pricing/index.html', '/plans'],
     ['/resources/index.html', '/resources/'],
     ['/checkout', '/plans'],
     ['/checkout/', '/plans'],

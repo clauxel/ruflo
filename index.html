@@ -31,9 +31,43 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet" />
     <link rel="icon" href="/favicon.svg" />
     <script type="application/ld+json" data-patrol-schema>{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Ruflo AI","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://ruflo.online/","description":"Launch hosted Ruflo workspaces for Codex, Claude Code, Goal Planner UI, memory, RAG, and multi-agent codebase workflows.","provider":{"@type":"Organization","name":"Ruflo AI","email":"support@aigeamy.com"},"offers":[{"@type":"Offer","name":"Starter monthly","price":"19","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Growth monthly","price":"49","priceCurrency":"USD","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Scale monthly","price":"149","priceCurrency":"USD","availability":"https://schema.org/InStock"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does Ruflo AI do?","acceptedAnswer":{"@type":"Answer","text":"Ruflo AI provides a hosted workspace path for multi-agent planning, Codex or Claude Code entrypoints, memory, review, checkout, and provisioning follow-up."}},{"@type":"Question","name":"How much does Ruflo AI cost?","acceptedAnswer":{"@type":"Answer","text":"Ruflo AI lists Starter at $19/mo, Growth at $49/mo, and Scale at $149/mo before annual billing discounts."}},{"@type":"Question","name":"Who operates support for Ruflo AI?","acceptedAnswer":{"@type":"Answer","text":"Ruflo AI support is available at support@aigeamy.com for checkout, provisioning, and hosted workspace questions."}}]}]}</script>
+    <style id="ruflo-static-fallback-style">
+      .ruflo-static-fallback{max-width:1120px;margin:0 auto;padding:48px 20px 28px;font-family:"Space Grotesk",Inter,ui-sans-serif,system-ui,sans-serif;color:#172033;line-height:1.62}
+      .ruflo-static-fallback h1{font-size:clamp(34px,6vw,64px);line-height:1.04;margin:0 0 16px;letter-spacing:0;color:#101828}
+      .ruflo-static-fallback h2{font-size:24px;margin:26px 0 10px;letter-spacing:0;color:#101828}
+      .ruflo-static-fallback p{max-width:840px;color:#475467}
+      .ruflo-static-actions{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+      .ruflo-static-actions a{border:1px solid #0f766e;border-radius:8px;padding:10px 14px;text-decoration:none;font-weight:800;color:#0f766e;background:#fff}
+      .ruflo-static-actions a:first-child{background:#0f766e;color:#fff}
+      .ruflo-static-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:20px 0}
+      .ruflo-static-card{border:1px solid #d0d5dd;border-radius:8px;background:#fff;padding:16px}
+    </style>
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main class="ruflo-static-fallback" data-static-seo-fallback>
+        <p>Hosted Ruflo workspace</p>
+        <h1>Ruflo AI for hosted multi-agent workspaces</h1>
+        <p>Ruflo AI gives teams a hosted path for Codex, Claude Code, Goal Planner UI, memory, RAG, review, checkout, and provisioning follow-up. It is built for teams that need a repeatable agent workspace instead of a one-off local setup.</p>
+        <div class="ruflo-static-actions" aria-label="Ruflo AI actions">
+          <a href="/pricing/">View pricing</a>
+          <a href="/plans?plan=growth&billing=annual">Checkout Growth annual</a>
+          <a href="/resources/">Read resources</a>
+          <a href="/llms.txt">llms.txt</a>
+        </div>
+        <section class="ruflo-static-grid" aria-label="Ruflo AI decision facts">
+          <article class="ruflo-static-card"><h2>Problem</h2><p>Agent work often starts as isolated chats, local scripts, or unclear handoffs. Teams lose the selected model route, memory assumptions, workspace owner, checkout state, and review evidence after the first useful run.</p></article>
+          <article class="ruflo-static-card"><h2>Solution</h2><p>Ruflo AI keeps workspace selection, entrypoint choice, model context, pricing, checkout, console tracking, and support notes visible before and after payment.</p></article>
+          <article class="ruflo-static-card"><h2>Evidence</h2><p>Pricing, resources, privacy, terms, sitemap, structured data, and llms.txt are exposed so buyers and AI assistants can quote the product path consistently.</p></article>
+        </section>
+        <section>
+          <h2>Before launching</h2>
+          <p>Choose the first workflow, decide who owns the workspace, identify the repositories or tools that need access, and confirm whether hosted setup is better than self-hosting. Growth is the common team path when several operators need reusable memory and review loops.</p>
+          <p>Use the pricing page for public plan amounts and checkout links. Use the resources page for GitHub, Codex, Claude Code, memory, RAG, legitimacy, and team operations guidance before committing a production workflow.</p>
+          <p>Before payment, write down the expected workspace receipt: selected plan, billing cycle, model route, entrypoint, support owner, provisioning state, and the first reviewable output. That receipt is what separates a managed workspace from another untracked experiment.</p>
+        </section>
+      </main>
+    </div>
     <script src="/polar-checkout-fallback.js" defer></script>
     <script type="module" src="/src/main.tsx"></script>
 

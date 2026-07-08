@@ -1,5 +1,11 @@
 # Website Changelog
 
+## 2026-07-08 22:00 CST - Top decile patrol SEO repair
+
+- Change summary: Promoted `/pricing/` to a crawlable page, expanded visible homepage and pricing content, restored pricing checkout CTAs, and kept transactional routes out of sitemap coverage.
+- Verification: local build/test/patrol checks were run for the affected surface before commit; production deployment and live verification are tracked in the release pass for this patrol batch.
+- Deployment/Git status: pending commit, push, deploy, and live post-deploy verification at entry time.
+
 ## 2026-06-07 14:14:14 CST
 
 - Change summary: Added meta keywords support and expanded Ruflo AI keyword resource coverage with useful pages for hosted multi-agent workspaces, multi-agent coding workflows, AI agent memory/RAG, Goal Planner UI, codebase planning/review, and team agent operations.

@@ -38,6 +38,7 @@ const expectedMarketingUrls = [
   `${liveOrigin}/resources/`,
   `${liveOrigin}/privacy/`,
   `${liveOrigin}/terms/`,
+  `${liveOrigin}/pricing/`,
   `${liveOrigin}/plans`,
 ]
 
@@ -65,6 +66,7 @@ test('static SEO assets point at the live Ruflo origin', () => {
   assert.match(sitemapXml, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/)
   assert.doesNotMatch(sitemapXml, /<urlset[^>]*\/>/)
   assert.doesNotMatch(sitemapXml, /chris-rufo|christopher-rufo|christopher-ruffo|rufo-twitter/i)
+  assert.doesNotMatch(sitemapXml, /\/checkout|\/success|\/cancel/i)
   assert.equal(sitemapXml.match(/<url>/g)?.length ?? 0, expectedMarketingUrls.length)
 
   for (const url of expectedMarketingUrls) {
