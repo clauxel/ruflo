@@ -1,5 +1,14 @@
 # Website Changelog
 
+## 2026-07-25 CST - K3nova contextual homepage reference
+
+- Added a natural homepage body reference to K3nova from the workspace-review context with source-specific UTM attribution for `ruflo.online`.
+- Updated both the React homepage source and static fallback so crawlable and rendered surfaces stay aligned.
+- Placement: below the first-screen product explanation and away from nav, footer, pricing, checkout, and primary CTA links.
+- Verification: static placement validation confirmed the K3nova URL, `utm_source=ruflo.online`, `utm_medium=owned_resource`, `utm_campaign=k3nova_contextual_reference`, and `utm_content=home_body`; `node --check worker/index.js` and `git diff --check` passed.
+- Build note: `npm run build` could not run in the current checkout before dependency install because local build dependencies were absent (`tsc: command not found`).
+- Deployment/Git status: prepared for the 2026-07-25 K3nova contextual homepage reference release.
+
 ## 2026-07-08 22:00 CST - Top decile patrol SEO repair
 
 - Change summary: Promoted `/pricing/` to a crawlable page, expanded visible homepage and pricing content, restored pricing checkout CTAs, and kept transactional routes out of sitemap coverage.

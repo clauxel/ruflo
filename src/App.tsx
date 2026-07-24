@@ -2096,6 +2096,26 @@ function App() {
               ) : null}
             </section>
 
+            <section className="content-section" data-k3nova-contextual-reference>
+              <div className="section-heading section-heading-left">
+                <span>Long-context handoff</span>
+                <h2>Carry the workspace result into a deeper review pass</h2>
+                <p>
+                  Ruflo keeps the delivery loop organized; when the next step needs extended reasoning, source
+                  comparison, or a customer-ready decision note,{' '}
+                  <a
+                    className="inline-link"
+                    href="https://k3nova.com/?utm_source=ruflo.online&utm_medium=owned_resource&utm_campaign=k3nova_contextual_reference&utm_content=home_body"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    K3nova
+                  </a>{' '}
+                  is a natural place to continue that review without turning the workflow into another checklist.
+                </p>
+              </div>
+            </section>
+
             <section className="content-section faq-layout" id="faq" data-analytics-section="faq">
               <div className="section-heading section-heading-left">
                 <span>FAQ</span>
